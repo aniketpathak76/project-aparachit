@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aparichit.com</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Courier New", Courier, monospace;
+      background-color: black;
+      color: #8b0000;
+      font-weight: bold;
+    }
+
+    #homepage, #dialoguePage {
+      display: none;
+      height: 100vh;
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      color: red;
+    }
+
+    #homepage {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-image: url('https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/aparachit1.png'); /* Your background image */
+    }
+
+    #dialoguePage {
+      background-image: url('https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/aparachit1.png');
+      padding: 40px;
+    }
+
+    .button {
+      padding: 10px 20px;
+      background: #e60000;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
+    .button:hover {
+      background: #ff3333;
+    }
+
+    #dialogueContainer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+
+    #dialogues {
+      flex: 1;
+      font-size: 26px;
+      text-align: left;
+      margin-right: 40px;
+      white-space: pre-wrap;
+    }
+
+    #dialogues.glitch {
+      animation: glitch 0.3s linear 2;
+    }
+
+    #photo {
+      width: 350px;
+      border: 3px solid red;
+      border-radius: 10px;
+      box-shadow: 0 0 15px red;
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-3px, 3px); }
+      40% { transform: translate(3px, -3px); }
+      60% { transform: translate(-3px, 3px); }
+      80% { transform: translate(3px, -3px); }
+      100% { transform: translate(0); }
+    }
+
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Homepage -->
+  <div id="homepage">
+    <h1>PROJECT APARACHIT ME AAPKA SWAGAT HAI</h1>
+    <p>Apna naam dijiye aapki pareshani hum dhoondh lenge:</p>
+    <input type="text" id="username" placeholder="Yahan likhiye...">
+    <button class="button" onclick="startExperience()">Enter</button>
+  </div>
+
+  <!-- Dialogue Page -->
+  <div id="dialoguePage">
+    <div id="dialogueContainer">
+      <div id="dialogues"></div>
+      <img id="photo" src="https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/golu%203.jpg" alt="Photo Placeholder" />
+    </div>
+    <audio id="backgroundMusic" src="https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/audio.mp3" loop></audio>
+  </div>
+
+  <script>
+    const dialogues = [
+      "Mutthal Minku ki nazar se bachne ki koshish karte ho?",
+      "Main Aparichit hoon... tumhare sath ki ja rhi gatividhi nahi chhup payenge.",
+      "Insaan ki pehchaan uske karmon se hoti hai.",
+      "lekin MINKU ne hadd par kardi hai",
+      "ab uski gand todni hogi",
+      "Tumse milkar acha laga... ab hisaab hoga!",
+      "tabhi tuhare chehre pe muskurahat wapis aayegi"
+    ];
+
+    const photos = [
+      "https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/golu%201.jpg",
+      "https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/golu%203.jpg",
+      "https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/golu%201.jpg",
+      "https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/golu%203.jpg",
+      "https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/golu%203.jpg",
+      "https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/golu%202.jpg",
+      "https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/golu%202.jpg"
+    ];
+
+    let dialogueIndex = 0;
+
+    function startExperience() {
+      const name = document.getElementById('username').value;
+      if (!name) {
+        alert("Apna naam likho!");
+        return;
+      }
+      document.getElementById('homepage').style.display = "none";
+      document.getElementById('dialoguePage').style.display = "block";
+      document.getElementById('backgroundMusic').play();
+      showDialogues();
+    }
+
+    function showDialogues() {
+      const dialogueDiv = document.getElementById('dialogues');
+      const photoElem = document.getElementById('photo');
+
+      if (dialogueIndex < dialogues.length) {
+        // Reset text and glitch effect
+        dialogueDiv.classList.remove("glitch");
+        dialogueDiv.innerText = "";
+
+        // Typewriter effect logic
+        const text = dialogues[dialogueIndex];
+        let charIndex = 0;
+
+        const typeInterval = setInterval(() => {
+          dialogueDiv.innerText += text.charAt(charIndex);
+          charIndex++;
+          if (charIndex === text.length) {
+            clearInterval(typeInterval);
+            // Glitch after typing
+            dialogueDiv.classList.add("glitch");
+            // Change photo
+            photoElem.src = photos[dialogueIndex];
+            dialogueIndex++;
+            setTimeout(showDialogues, 1000); // Small delay before next
+          }
+        }, 50); // speed of typing
+      } else {
+        dialogueDiv.innerText = "Yeh toh bas shuruaat hai...!";
+      }
+    }
+  </script>
+
+</body>
+</html>
