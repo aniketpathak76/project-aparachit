@@ -152,7 +152,10 @@
         dialogueDiv.innerText = dialogues[dialogueIndex];
         photoElem.src = photos[dialogueIndex];
         dialogueIndex++;
-        setTimeout(showDialogues, 2000);
+        const dialogueTimings = [4000, 6000, 5000, 5000, 5000, 5000, 5000];
+
+        setTimeout(showDialogues, dialogueTimings[dialogueIndex - 1]);
+    ;
       } else {
         dialogueDiv.innerText = "Yeh toh bas shuruaat hai...!";
 
