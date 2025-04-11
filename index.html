@@ -11,6 +11,7 @@
       background-color: black;
       color: #8b0000;
       font-weight: bold;
+      overflow: hidden;
     }
 
     #homepage, #dialoguePage {
@@ -27,12 +28,14 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background-image: url('https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/aparachit1.png'); /* Your background image */
+      background-image: url('https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/aparachit1.png');
     }
 
     #dialoguePage {
       background-image: url('https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/aparachit1.png');
       padding: 40px;
+      position: relative;
+      z-index: 2;
     }
 
     .button {
@@ -85,9 +88,17 @@
       100% { transform: translate(0); }
     }
 
-    @keyframes typewriter {
-      from { width: 0; }
-      to { width: 100%; }
+    #bgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -108,6 +119,7 @@
       <img id="photo" src="https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/golu%203.jpg" alt="Photo Placeholder" />
     </div>
     <audio id="backgroundMusic" src="https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/audio.mp3" loop></audio>
+    <video id="bgVideo" src="https://raw.githubusercontent.com/aniketpathak76/project-aparachit/main/ap.mp4" muted loop playsinline></video>
   </div>
 
   <script>
@@ -148,13 +160,13 @@
     function showDialogues() {
       const dialogueDiv = document.getElementById('dialogues');
       const photoElem = document.getElementById('photo');
+      const bgMusic = document.getElementById('backgroundMusic');
+      const bgVideo = document.getElementById('bgVideo');
 
       if (dialogueIndex < dialogues.length) {
-        // Reset text and glitch effect
         dialogueDiv.classList.remove("glitch");
         dialogueDiv.innerText = "";
 
-        // Typewriter effect logic
         const text = dialogues[dialogueIndex];
         let charIndex = 0;
 
@@ -163,16 +175,27 @@
           charIndex++;
           if (charIndex === text.length) {
             clearInterval(typeInterval);
-            // Glitch after typing
             dialogueDiv.classList.add("glitch");
-            // Change photo
             photoElem.src = photos[dialogueIndex];
             dialogueIndex++;
-            setTimeout(showDialogues, 1000); // Small delay before next
+            setTimeout(showDialogues, 1000);
           }
-        }, 50); // speed of typing
+        }, 50);
       } else {
         dialogueDiv.innerText = "Yeh toh bas shuruaat hai...!";
+
+        // Fade out background music and play video
+        let fade = setInterval(() => {
+          if (bgMusic.volume > 0.05) {
+            bgMusic.volume -= 0.05;
+          } else {
+            clearInterval(fade);
+            bgMusic.pause();
+            bgMusic.volume = 0;
+            bgVideo.style.opacity = 1;
+            bgVideo.play();
+          }
+        }, 200);
       }
     }
   </script>
