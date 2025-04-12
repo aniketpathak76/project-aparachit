@@ -1,2 +1,2 @@
 # aparichit style fun web page 
-begginer style don't hate 😊
+begginer page don't hate 😊
